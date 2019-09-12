@@ -11,15 +11,15 @@ df = raw_data[(raw_data.price <= 600) | (raw_data.availability_365 != 0)].copy()
 # pre-process data #
 ####################
 
-# reviews_per_month: replace null with average value
-avg_reviews_per_month = df["reviews_per_month"].mean()
-df["reviews_per_month"] = df["reviews_per_month"].fillna(avg_reviews_per_month)
+# reviews_per_month: replace null with 0
+df["reviews_per_month"] = df["reviews_per_month"].fillna(0)
 
 # last_review data: convert it to numeric value
 df["last_review"] = pd.to_datetime(df["last_review"], infer_datetime_format=True)
-avg_last_review = df["last_review"].mean()
-df["last_review"] = df["last_review"].fillna(avg_last_review)
-df["last_review"] = df["last_review"].apply(lambda review_date: review_date.toordinal() - avg_last_review.toordinal())
+earliest_last_review = min(df["last_review"])
+df["last_review"] = df["last_review"].fillna(earliest_last_review)
+df["last_review"] = df["last_review"].apply(
+    lambda review_date: review_date.toordinal() - earliest_last_review.toordinal())
 
 # neighbourhood: label encoding
 neighbourhood_encoder = LabelEncoder()
