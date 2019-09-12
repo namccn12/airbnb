@@ -5,7 +5,8 @@ from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import cross_val_score
 
-df = pd.read_csv("AB_NYC_2019.csv")
+raw_data = pd.read_csv("AB_NYC_2019.csv")
+df = raw_data[(raw_data.price <= 600) | (raw_data.availability_365 != 0)].copy()
 
 ####################
 # pre-process data #
@@ -56,7 +57,7 @@ x_scaled = scaler.transform(x)
 ###############################
 
 k_scores = []
-k_range = range(20, 100)
+k_range = range(20, 80)
 
 for k in k_range:
     model = KNeighborsRegressor(n_neighbors=k, weights='distance')

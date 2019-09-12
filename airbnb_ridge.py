@@ -5,20 +5,22 @@ from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv("AB_NYC_2019.csv")
+raw_data = pd.read_csv("AB_NYC_2019.csv")
+df = raw_data[(raw_data.price <= 600) | (raw_data.availability_365 != 0)].copy()
 
 ####################
 # pre-process data #
 ####################
 
-# reviews_per_month: replace null with 0
-df["reviews_per_month"] = df["reviews_per_month"].fillna(0)
+# reviews_per_month: replace null with average value
+avg_reviews_per_month = df["reviews_per_month"].mean()
+df["reviews_per_month"] = df["reviews_per_month"].fillna(avg_reviews_per_month)
 
 # last_review data: convert it to numeric value
 df["last_review"] = pd.to_datetime(df["last_review"], infer_datetime_format=True)
-earliest_last_review = min(df["last_review"])
-df["last_review"] = df["last_review"].fillna(earliest_last_review)
-df["last_review"] = df["last_review"].apply(lambda review_date: review_date.toordinal() - earliest_last_review.toordinal())
+avg_last_review = df["last_review"].mean()
+df["last_review"] = df["last_review"].fillna(avg_last_review)
+df["last_review"] = df["last_review"].apply(lambda review_date: review_date.toordinal() - avg_last_review.toordinal())
 
 # neighbourhood: label encoding
 neighbourhood_encoder = LabelEncoder()

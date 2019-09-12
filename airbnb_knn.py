@@ -5,7 +5,8 @@ from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv("AB_NYC_2019.csv")
+raw_data = pd.read_csv("AB_NYC_2019.csv")
+df = raw_data[(raw_data.price <= 600) | (raw_data.availability_365 != 0)].copy()
 
 ####################
 # pre-process data #
@@ -60,7 +61,7 @@ x_test_scaled = scaler.transform(x_test)
 ###############################
 
 scores = []
-k_range = range(20, 50)
+k_range = range(20, 60)
 
 for k in k_range:
     model = KNeighborsRegressor(n_neighbors=k, weights='distance')
