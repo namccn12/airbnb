@@ -75,13 +75,13 @@ reviews_group_2 = ""
 reviews_group_3 = ""
 
 # classify all records into 3 groups based on number_of_reviews
-# reviews_group_1: less than 20 reviews
-# reviews_group_2: between 20 and 100 reviews
-# reviews_group_3: more than 100 reviews
+# reviews_group_1: less than 10 reviews
+# reviews_group_2: between 10 and 50 reviews
+# reviews_group_3: more than 50 reviews
 for index, row in df.iterrows():
-    if row["number_of_reviews"] < 20:
+    if row["number_of_reviews"] < 10:
         reviews_group_1 = reviews_group_1 + " " + str(row["name"])
-    elif 20 <= row["number_of_reviews"] < 100:
+    elif 10 <= row["number_of_reviews"] < 50:
         reviews_group_2 = reviews_group_2 + " " + str(row["name"])
     else:
         reviews_group_3 = reviews_group_3 + " " + str(row["name"])
