@@ -6,7 +6,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import cross_val_score
 
 raw_data = pd.read_csv("AB_NYC_2019.csv")
-df = raw_data[(raw_data.price <= 600) | (raw_data.availability_365 != 0)].copy()
+df = raw_data[raw_data.price <= 600].copy()
 
 ####################
 # pre-process data #
@@ -57,7 +57,7 @@ x_scaled = scaler.transform(x)
 ###############################
 
 k_scores = []
-k_range = range(20, 80)
+k_range = range(20, 60)
 
 for k in k_range:
     model = KNeighborsRegressor(n_neighbors=k, weights='distance')
@@ -65,6 +65,6 @@ for k in k_range:
     k_scores.append(np.mean(scores))
 
 plt.plot(k_range, k_scores)
-plt.title("R2_score (knn-cross validation)")
+plt.title("R2_score (knn with cross validation)")
 plt.xlabel("k")
 plt.show()

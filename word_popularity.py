@@ -68,7 +68,7 @@ def compute_TFIDF(tf, idf_matrix):
 data = pd.read_csv("AB_NYC_2019.csv")
 
 # remove outliers and select specific neighbourhood_group
-df = data[(data.price <= 600) & (data.availability_365 != 0) & (data.neighbourhood_group == "Manhattan")].copy()
+df = data[(data.price <= 600) & (data.neighbourhood_group == "Manhattan")].copy()
 
 reviews_group_1 = ""
 reviews_group_2 = ""

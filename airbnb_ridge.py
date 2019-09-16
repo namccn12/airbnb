@@ -6,7 +6,7 @@ from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 
 raw_data = pd.read_csv("AB_NYC_2019.csv")
-df = raw_data[(raw_data.price <= 600) | (raw_data.availability_365 != 0)].copy()
+df = raw_data[raw_data.price <= 600].copy()
 
 ####################
 # pre-process data #
